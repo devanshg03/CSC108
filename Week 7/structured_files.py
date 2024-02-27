@@ -25,17 +25,17 @@ def points_per_game(game_data: TextIO) -> list[list]:
         
         # read and process game points until new team name read 
         # or end of file reached
-        ???
+        line = game_data.readline().strip()
         
         # want this while loop to stop on a team name or end of file
         # want it to continue on points (digits)
-        while ???:
-            total_points = total_points + ???
+        while line.isdigit():
+            total_points = total_points + int(line)
             games_played = games_played + 1
-            ???
+            line = game_data.readline().strip()
 
         # add results for team_name 
-        if ???:
+        if games_played > 0:
             result.append([team_name, round(total_points / games_played, 2)])
         else:
             result.append([team_name, None])
