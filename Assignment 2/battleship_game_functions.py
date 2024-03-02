@@ -40,7 +40,7 @@ def valid_cell_indexes(row: int, col: int, grid_size: int) -> bool:
     >>> valid_cell_indexes(2, 9, 9)
     False
     """
-
+    return (0 <= row < grid_size) and (0 <= col < grid_size)
 
 
 def is_not_given_symbol(row: int, col: int, grid: list[list[str]],
@@ -61,7 +61,7 @@ def is_not_given_symbol(row: int, col: int, grid: list[list[str]],
     >>> is_not_given_symbol(0, 1, my_grid, UNKNOWN)
     False
     """
-
+    return grid[row][col] != symbol
 
 
 def is_win(ship_sizes: list[int], hits_list: list[int]) -> bool:
@@ -78,7 +78,11 @@ def is_win(ship_sizes: list[int], hits_list: list[int]) -> bool:
     >>> is_win([1, 2, 3], [1, 2, 0])
     False
     """
-
+    hit_flag = True
+    for i in range(len(ship_sizes)):
+        if ship_sizes[i] != hits_list[i]:
+            hit_flag = False
+    return hit_flag
 
 
 def update_target_grid(row: int, col: int, target_grid: list[list[str]],
@@ -108,7 +112,10 @@ def update_target_grid(row: int, col: int, target_grid: list[list[str]],
     >>> my_target_grid == [[UNKNOWN, UNKNOWN], [UNKNOWN, HIT]]
     True
     """
-
+    if is_not_given_symbol(row, col, fleet_grid, EMPTY):
+        target_grid[row][col] = HIT
+    else:
+        target_grid[row][col] = MISS
 
 
 def update_fleet_grid(row: int, col: int, fleet_grid: list[list[str]],
@@ -137,7 +144,8 @@ def update_fleet_grid(row: int, col: int, fleet_grid: list[list[str]],
     >>> my_fleet_grid == [[EMPTY, 'A'], [EMPTY, 'a']]
     True
     """
-
+    fleet_grid[row][col] = ship_symbols[0].upper()
+    hits_list[0] += 1
 
 
 def get_ship_symbol_count(fleet_grid: list[list[str]],
@@ -157,7 +165,12 @@ def get_ship_symbol_count(fleet_grid: list[list[str]],
     >>> get_ship_symbol_count(grid, 'k')
     0
     """
-
+    ship_symbol_count = 0
+    for row in fleet_grid:
+        for col in row:
+            if col == ship_symbol:
+                ship_symbol_count += 1
+    return ship_symbol_count
 
 
 def has_ship(fleet_grid: list[list[str]], row_start: int, col_start: int,
@@ -195,7 +208,43 @@ def has_ship(fleet_grid: list[list[str]], row_start: int, col_start: int,
     >>> has_ship(grid, 0, 0, 'b', 3)
     False
     """
+    list_col, list_row = [], []
 
+    # Get a list of the col and the row each
+    
+    # Get list of the selected row
+    row_search_range = min(
+        col_start + ship_size + 1, 
+        len(fleet_grid[row_start]))
+    
+    for i in range(col_start, row_search_range):
+        list_row.append(fleet_grid[row_start][i])
+
+    in_list_row = (
+        all(element == ship_symbol for element in list_row[:-1]) and
+        len(list_row[:-1]) == ship_size and
+        list_row[-1] != ship_symbol
+    )
+
+    # Get list of the selected col
+    col_search_range = min(row_start + ship_size + 1, len(fleet_grid))
+    for j in range(row_start, col_search_range):
+        list_col.append(fleet_grid[j][col_start])
+
+    in_list_col = (
+        all(element == ship_symbol for element in list_col[:-1]) and
+        len(list_col[:-1]) == ship_size and
+        list_col[-1] != ship_symbol
+    )
+
+    if ship_size == 1:
+        return in_list_col and in_list_row
+    elif ship_size >= 2 and in_list_col and in_list_row:
+        return False
+    elif in_list_col or in_list_row:
+        return True
+    else:
+        return False
 
 
 def validate_symbol_counts(fleet_grid: list[list[str]],
@@ -237,7 +286,15 @@ def validate_symbol_counts(fleet_grid: list[list[str]],
     >>> validate_symbol_counts(grid, ships, sizes)
     False
     """
+    for i in range(len(ship_symbols)):
+        if get_ship_symbol_count(fleet_grid, ship_symbols[i]) != ship_sizes[i]:
+            return False
 
+    for row in fleet_grid:
+        for col in row:
+            if col not in ship_symbols and col != EMPTY:
+                return False
+    return True
 
 
 def validate_ship_positions(fleet_grid: list[list[str]],
@@ -271,11 +328,20 @@ def validate_ship_positions(fleet_grid: list[list[str]],
     >>> validate_ship_positions(grid, ships, sizes)
     False
     """
-
+    for i in range(len(ship_symbols)):
+        for row in range(len(fleet_grid)):
+            for col in range(len(fleet_grid)):
+                if has_ship(fleet_grid, 
+                        row, 
+                        col, 
+                        ship_symbols[i], 
+                        ship_sizes[i]):
+                    return True
+    return False
 
 
 if __name__ == '__main__':
     # Automatically run all doctest examples to see if any fail
     import doctest
     # uncomment the line below to run the docstring examples
-    # doctest.testmod()
+    doctest.testmod()
