@@ -78,11 +78,10 @@ def is_win(ship_sizes: list[int], hits_list: list[int]) -> bool:
     >>> is_win([1, 2, 3], [1, 2, 0])
     False
     """
-    hit_flag = True
     for i in range(len(ship_sizes)):
         if ship_sizes[i] != hits_list[i]:
-            hit_flag = False
-    return hit_flag
+            return False
+    return True
 
 
 def update_target_grid(row: int, col: int, target_grid: list[list[str]],
@@ -144,8 +143,9 @@ def update_fleet_grid(row: int, col: int, fleet_grid: list[list[str]],
     >>> my_fleet_grid == [[EMPTY, 'A'], [EMPTY, 'a']]
     True
     """
-    fleet_grid[row][col] = ship_symbols[0].upper()
-    hits_list[0] += 1
+    ship_index = ship_symbols.index(fleet_grid[row][col])
+    fleet_grid[row][col] = fleet_grid[row][col].upper()
+    hits_list[ship_index] += 1
 
 
 def get_ship_symbol_count(fleet_grid: list[list[str]],
@@ -165,12 +165,7 @@ def get_ship_symbol_count(fleet_grid: list[list[str]],
     >>> get_ship_symbol_count(grid, 'k')
     0
     """
-    ship_symbol_count = 0
-    for row in fleet_grid:
-        for col in row:
-            if col == ship_symbol:
-                ship_symbol_count += 1
-    return ship_symbol_count
+    return sum(row.count(ship_symbol) for row in fleet_grid)
 
 
 def has_ship(fleet_grid: list[list[str]], row_start: int, col_start: int,
