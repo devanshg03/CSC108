@@ -61,4 +61,15 @@ def get_game_dict(game_data: TextIO) -> dict[str, list[int]]:
 'Montreal Canadiens': [1, 2, 1, 0, 2]}
     >>> input_file.close()
     """
+    result = {}
+    team_name = ''
 
+    for line in game_data:
+        line = line.strip()
+        if line.isdigit():
+            result[team_name].append(int(line))
+        else:
+            team_name = line
+            if team_name not in result:
+                result[team_name] = []
+    return result
