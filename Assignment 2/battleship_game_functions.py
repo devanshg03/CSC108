@@ -203,43 +203,32 @@ def has_ship(fleet_grid: list[list[str]], row_start: int, col_start: int,
     >>> has_ship(grid, 0, 0, 'b', 3)
     False
     """
-    list_col, list_row = [], []
-
-    # Get a list of the col and the row each
+    if get_ship_symbol_count(fleet_grid, ship_symbol) != ship_size:
+        return False
     
-    # Get list of the selected row
-    row_search_range = min(
-        col_start + ship_size + 1, 
-        len(fleet_grid[row_start]))
-    
-    for i in range(col_start, row_search_range):
-        list_row.append(fleet_grid[row_start][i])
-
-    in_list_row = (
-        all(element == ship_symbol for element in list_row[:-1]) and
-        len(list_row[:-1]) == ship_size and
-        list_row[-1] != ship_symbol
-    )
-
-    # Get list of the selected col
-    col_search_range = min(row_start + ship_size + 1, len(fleet_grid))
-    for j in range(row_start, col_search_range):
-        list_col.append(fleet_grid[j][col_start])
-
-    in_list_col = (
-        all(element == ship_symbol for element in list_col[:-1]) and
-        len(list_col[:-1]) == ship_size and
-        list_col[-1] != ship_symbol
-    )
-
     if ship_size == 1:
-        return in_list_col and in_list_row
-    elif ship_size >= 2 and in_list_col and in_list_row:
-        return False
-    elif in_list_col or in_list_row:
-        return True
+        return fleet_grid[row_start][col_start] == ship_symbol
     else:
-        return False
+        # Check if the ship is a row
+        row_search_range = min(
+            col_start + ship_size,
+            len(fleet_grid[row_start]))
+        in_row = all(
+            fleet_grid[row_start][i] == ship_symbol for i in range(
+                col_start,
+                row_search_range))
+        # Check if the ship is a column
+        col_search_range = min(
+            row_start + ship_size,
+            len(fleet_grid))
+        in_col = all(
+            fleet_grid[i][col_start] == ship_symbol for i in range(
+                row_start,
+                col_search_range))
+        
+        if in_row and in_col:
+            return False
+        return in_row or in_col
 
 
 def validate_symbol_counts(fleet_grid: list[list[str]],
@@ -323,16 +312,7 @@ def validate_ship_positions(fleet_grid: list[list[str]],
     >>> validate_ship_positions(grid, ships, sizes)
     False
     """
-    for i in range(len(ship_symbols)):
-        for row in range(len(fleet_grid)):
-            for col in range(len(fleet_grid)):
-                if has_ship(fleet_grid, 
-                        row, 
-                        col, 
-                        ship_symbols[i], 
-                        ship_sizes[i]):
-                    return True
-    return False
+    return True
 
 
 if __name__ == '__main__':

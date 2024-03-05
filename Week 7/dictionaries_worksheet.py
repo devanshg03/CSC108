@@ -9,10 +9,11 @@ def express_checkout(product_to_quantity: dict[str, int]) -> bool:
     to the numbers of those items in the grocery order.
     
     >>> express_checkout({'banana': 3, 'soy milk': 1, 'peanut butter': 1})
-    ???
+    True
     >>> express_checkout({'banana': 3, 'soy milk': 1, 'twinkie': 5})
-    ???
+    False
     """
+    return sum(product_to_quantity.values()) <= 8
 
 
 def build_placements(shoes: list[str]) -> dict[str, list[int]]:
@@ -25,5 +26,19 @@ def build_placements(shoes: list[str]) -> dict[str, list[int]]:
     'Nike': [6], 'Adidas': [8]}
     True
     """
+    company_to_placements = {}
+
+    for i in range(len(shoes)):
+        company = shoes[i]
+        place = i + 1
+
+        if company not in company_to_placements:
+            company_to_placements[company] = []
+        company_to_placements[company].append(place)
+    return company_to_placements
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
     
 
