@@ -525,7 +525,7 @@ if __name__ == '__main__':
 
     # set play_computer to True to play against the computer
     # set play_computer to False to play single-player (helpful when testing)
-    play_computer = False
+    play_computer = True
     if play_computer:
         play_versus_computer()
     else:
