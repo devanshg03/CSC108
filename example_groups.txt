@@ -1,0 +1,9 @@
+GROUP 1
+sadia
+paul
+GROUP 2
+fernando
+sophia
+tom
+GROUP 3
+yum

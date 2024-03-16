@@ -60,7 +60,101 @@ def test_empty_string() -> None:
 
 
 # Add your other test methods below:
+def test_all_fluffy() -> None:
+    """Test that a string with all fluffy letters is fluffy."""
+    expected = True
+    actual = all_fluffy('fluffy')
+    assert actual == expected
 
+def test_repeated_fluffy() -> None:
+    """Test that a string with repeated fluffy letters is fluffy."""
+    expected = True
+    actual = all_fluffy('fflluuffyy')
+    assert actual == expected
+
+def test_mixed_case() -> None:
+    """Test that a string with mixed case letters is not fluffy."""
+    expected = False
+    actual = all_fluffy('FlUfFy')
+    assert actual == expected
+
+def test_upper_case() -> None:
+    """Test that a string with upper case fluffy letters is not fluffy."""
+    expected = False
+    actual = all_fluffy('FLUFFY')
+    assert actual == expected
+
+def test_only_non_fluffy() -> None:
+    """Test that a string with non-fluffy letters is not fluffy."""
+    expected = False
+    actual = all_fluffy('abcde')
+    assert actual == expected
+
+def test_mixed_fluffy() -> None:
+    """Test that a string with mixed fluffy and non-fluffy letters is not fluffy."""
+    expected = False
+    actual = all_fluffy('fluffyaba')
+    assert actual == expected
+
+def test_numeric() -> None:
+    """Test that a string with numeric characters is not fluffy."""
+    expected = False
+    actual = all_fluffy('12345fl')
+    assert actual == expected
+
+def test_special_characters() -> None:
+    """Test that a string with special characters is not fluffy."""
+    expected = False
+    actual = all_fluffy('@fluff')
+    assert actual == expected
+
+def test_whitespace() -> None:
+    """Test that a string with whitespace is not fluffy."""
+    expected = False
+    actual = all_fluffy(' fluffy ')
+    assert actual == expected
+
+def test_only_whitespace() -> None:
+    """Test that a string with only whitespace is not fluffy."""
+    expected = False
+    actual = all_fluffy(' ')
+    assert actual == expected
+
+def test_unique_fluffy_different_order() -> None:
+    """Test that a string with all unique fluffy letters in a different order is fluffy."""
+    expected = True
+    actual = all_fluffy('yffluf')
+    assert actual == expected
+
+def test_lower_case_fluffy() -> None:
+    """Test that a string with lower case fluffy letters is fluffy."""
+    expected = True
+    actual = all_fluffy('fluffy')
+    assert actual == expected
+
+def test_non_english_characters() -> None:
+    """Test that a string with non-English characters is not fluffy."""
+    expected = False
+    actual = all_fluffy('flüffy')
+    assert actual == expected
+
+def test_single_fluffy_character() -> None:
+    """Test that a single fluffy character is considered fluffy."""
+    expected = True
+    actual = all_fluffy('f')
+    assert actual == expected
+
+def test_long_string_with_mixed_characters() -> None:
+    """Test a long string containing both fluffy and non-fluffy characters."""
+    expected = False
+    actual = all_fluffy('ffluffylongstringwithnonfluffyx')
+    assert actual == expected
+
+def test_unique_fluffy_letters() -> None:
+    """Test a string that contains all unique fluffy letters."""
+    expected = True
+    actual = all_fluffy('fuly')
+    assert actual == expected
 
 if __name__ == '__main__':
     pytest.main(['w09_markus.py'])
