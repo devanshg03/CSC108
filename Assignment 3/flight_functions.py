@@ -20,6 +20,16 @@ import flight_example_data
 # Part 2 - Querying the data
 ################################################################################
 
+def is_direct_flight(route_info: RouteDict, source: str, destination: str) -> bool:
+    """Return True if there is a direct flight from source to destination in
+    RouteInfo, and False otherwise.
+
+    >>> example_routes = flight_example_data.create_example_routes()
+    >>> is_direct_flight(example_routes, 'SYD', 'TRO')
+    True
+    >>> is_direct_flight(example_routes, 'TRO', 'SYD')
+    False
+    """
 
 ################################################################################
 # Part 3 - Implementing useful algorithms
