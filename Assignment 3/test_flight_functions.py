@@ -52,12 +52,26 @@ def test_only_null_airports() -> None:
     # airport has a value of OPENFLIGHTS_NULL_VALUE for their 'Tz' key.
     # The provided code starts with an empty dictionary. Modify this statement
     # to create a dictionary with at least two airports.
-    airports = {}
+    airports = {'GFN': {'City': 'Grafton',
+                    'Country': 'Australia',
+                    'Latitude': '-29.7593994140625',
+                    'Longitude': '153.02999877929688',
+                    'Name': 'Grafton Airport',
+                    'Tz': OPENFLIGHTS_NULL_VALUE},
+                'JCK': {'City': 'Julia Creek',
+                    'Country': 'Australia',
+                    'Latitude': '-20.66830062866211',
+                    'Longitude': '141.72300720214844',
+                    'Name': 'Julia Creek Airport',
+                    'Tz': OPENFLIGHTS_NULL_VALUE}
+                    }
 
     # We expect an empty dictionary in return
     expected = {}
 
     # Finish the test case below.
+    actual = summarize_by_timezone(airports)
+    assert actual == expected
 
 
 def test_no_mutation() -> None:
@@ -73,6 +87,7 @@ def test_no_mutation() -> None:
 
     # Finish the test case below to check whether the argument airports
     # was mutated
+    assert airports == create_example_airports()
 
 
 """Unit tests for the is_valid_flight_sequence function."""
@@ -99,10 +114,140 @@ def test_one_valid_direct_flight() -> None:
 #       - dichotomies
 #       - boundaries
 #       - order
+    
+def test_no_flights() -> None:
+    """Test that the function returns False when the flight sequence is empty.
+    """
 
+    routes = create_example_routes()
+    expected = False
+    sequence = []
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def single_flight() -> None:
+    """Test that the function returns True when the flight sequence is a
+    valid direct flight.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_valid_flight_sequence() -> None:
+    """Test that the function returns True when the flight sequence is a
+    valid flight sequence.
+    """
+
+    routes = create_example_routes()
+    expected = True
+    sequence = ['GFN', 'TRO', 'SYD']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_invalid_flight_sequence() -> None:
+    """Test that the function returns False when the flight sequence is not a
+    valid flight sequence.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN', 'SYD']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_non_existent_airport() -> None:
+    """Test that the function returns False when the flight sequence contains an
+    airport that does not exist.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN', 'TRO', 'SYD', 'XXX']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_invalid_last_airport() -> None:
+    """Test that the function returns False when the flight sequence is valid 
+    until the last airport.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN', 'TRO', 'SYD', 'XXX']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_invalid_first_airport() -> None:
+    """Test that the function returns False when the flight sequence is valid 
+    until the first airport.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['XXX', 'TRO', 'SYD']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_valid_long_flight_sequence() -> None:
+    """Test that the function returns True when the flight sequence is a
+    valid flight sequence.
+    """
+
+    routes = create_example_routes()
+    expected = True
+    sequence = ['GFN', 'TRO', 'GFN', 'TRO', 'GFN', 'TRO', 'SYD']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_invalid_long_flight_sequence() -> None:
+    """Test that the function returns False when the flight sequence is not a
+    valid flight sequence.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN', 'TRO', 'GFN', 'TRO', 'GFN', 'TRO', 'XXX']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_loop_flight_sequence() -> None:
+    """Test that the function returns True when the flight sequence is a
+    valid flight sequence.
+    """
+
+    routes = create_example_routes()
+    expected = True
+    sequence = ['GFN', 'TRO', 'GFN', 'TRO', 'GFN', 'TRO', 'GFN']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
+
+def test_non_existent_route() -> None:
+    """Test that the function returns False when the flight sequence contains a
+    route that does not exist.
+    """
+
+    routes = create_example_routes()
+    expected = False
+    sequence = ['GFN', 'HKG']
+
+    actual = is_valid_flight_sequence(routes, sequence)
+    assert actual == expected
 
 if __name__ == '__main__':
-    # # Uncomment the 2 lines below to check your code style with python_ta
+    # Uncomment the 2 lines below to check your code style with python_ta
     # import python_ta
     # python_ta.check_all(config='pyta/a3_pyta.txt')
 

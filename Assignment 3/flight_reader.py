@@ -134,8 +134,8 @@ if __name__ == '__main__':
     doctest.testmod()
     
     # Uncomment the 2 lines below to check your code style with python_ta
-    import python_ta
-    python_ta.check_all(config='pyta/a3_pyta.txt')
+    # import python_ta
+    # python_ta.check_all(config='pyta/a3_pyta.txt')
 
     # Uncomment the lines below to open the larger data files and call your
     # functions above
