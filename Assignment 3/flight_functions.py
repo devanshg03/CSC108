@@ -25,11 +25,51 @@ def is_direct_flight(route_info: RouteDict, source: str, destination: str) -> bo
     RouteInfo, and False otherwise.
 
     >>> example_routes = flight_example_data.create_example_routes()
-    >>> is_direct_flight(example_routes, 'SYD', 'TRO')
+    >>> is_direct_flight(example_routes, 'RCM', 'JCK')
     True
-    >>> is_direct_flight(example_routes, 'TRO', 'SYD')
+    >>> is_direct_flight(example_routes, 'JCK', 'TRO')
     False
     """
+    return destination in route_info[source]
+
+
+def is_valid_flight_sequence(route_info: RouteDict, flights: list[str]) -> bool:
+    """Return True if the list of flights is a valid sequence of flights in
+    route_info, and False otherwise.
+
+    A valid sequence of flights is a list of flights where each flight is a
+    direct flight from the previous destination to the next source.
+
+    >>> example_routes = flight_example_data.create_example_routes()
+    >>> is_valid_flight_sequence(example_routes, ['RCM', 'JCK', 'RCM'])
+    True
+    >>> is_valid_flight_sequence(example_routes, ['RCM', 'TRO', 'HKG'])
+    False
+    """
+    for i in range(len(flights) - 1):
+        if flights[i] not in route_info:
+            return False
+        if not is_direct_flight(route_info, flights[i], flights[i + 1]):
+            return False
+    return True
+
+
+def summarize_by_timezone(airports: AirportDict) -> dict[str, int]:
+    """Return a dictionary where the keys are the timezones given the timeszone is not
+    null in airports and the values are the number of airports in airports that are in
+    that timezone.
+
+    >>> example_airports = flight_example_data.create_handout_airports()
+    >>> summarize_by_timezone(example_airports)
+    {'Australia/Brisbane': 1, 'Australia/Sydney': 1}
+    """
+    timezone_dict = {}
+    for airport in airports:
+        if airports[airport]['Tz'] in timezone_dict and airports[airport]['Tz'] != OPENFLIGHTS_NULL_VALUE:
+            timezone_dict[airports[airport]['Tz']] += 1
+        elif airports[airport]['Tz'] != OPENFLIGHTS_NULL_VALUE:
+            timezone_dict[airports[airport]['Tz']] = 1
+    return timezone_dict
 
 ################################################################################
 # Part 3 - Implementing useful algorithms
