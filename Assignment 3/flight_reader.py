@@ -116,7 +116,7 @@ def read_routes(routes_data: TextIO, airports: AirportDict) -> RouteDict:
         
         line = routes_data.readline().strip()
     return routes_dict
-            
+
 
 if __name__ == '__main__':
     # On A3 we do not have a separate checker but instead include code that
@@ -125,17 +125,17 @@ if __name__ == '__main__':
     # Software Installation page on Quercus for details.
 
     # Uncomment the 3 lines below to have function type contracts checked
-    # # Enable type contract checking for the functions in this file
-    # import python_ta.contracts
-    # python_ta.contracts.check_all_contracts()
+    # Enable type contract checking for the functions in this file
+    import python_ta.contracts
+    python_ta.contracts.check_all_contracts()
     
     # Check the correctness of the doctest examples
     import doctest
     doctest.testmod()
     
     # Uncomment the 2 lines below to check your code style with python_ta
-    # import python_ta
-    # python_ta.check_all(config='pyta/a3_pyta.txt')
+    import python_ta
+    python_ta.check_all(config='pyta/a3_pyta.txt')
 
     # Uncomment the lines below to open the larger data files and call your
     # functions above

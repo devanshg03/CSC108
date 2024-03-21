@@ -53,18 +53,18 @@ def test_only_null_airports() -> None:
     # The provided code starts with an empty dictionary. Modify this statement
     # to create a dictionary with at least two airports.
     airports = {'GFN': {'City': 'Grafton',
-                    'Country': 'Australia',
-                    'Latitude': '-29.7593994140625',
-                    'Longitude': '153.02999877929688',
-                    'Name': 'Grafton Airport',
-                    'Tz': OPENFLIGHTS_NULL_VALUE},
+                        'Country': 'Australia',
+                        'Latitude': '-29.7593994140625',
+                        'Longitude': '153.02999877929688',
+                        'Name': 'Grafton Airport',
+                        'Tz': OPENFLIGHTS_NULL_VALUE},
                 'JCK': {'City': 'Julia Creek',
-                    'Country': 'Australia',
-                    'Latitude': '-20.66830062866211',
-                    'Longitude': '141.72300720214844',
-                    'Name': 'Julia Creek Airport',
-                    'Tz': OPENFLIGHTS_NULL_VALUE}
-                    }
+                        'Country': 'Australia',
+                        'Latitude': '-20.66830062866211',
+                        'Longitude': '141.72300720214844',
+                        'Name': 'Julia Creek Airport',
+                        'Tz': OPENFLIGHTS_NULL_VALUE}
+                }
 
     # We expect an empty dictionary in return
     expected = {}
@@ -114,7 +114,7 @@ def test_one_valid_direct_flight() -> None:
 #       - dichotomies
 #       - boundaries
 #       - order
-    
+
 def test_no_flights() -> None:
     """Test that the function returns False when the flight sequence is empty.
     """
@@ -125,6 +125,7 @@ def test_no_flights() -> None:
 
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
+
 
 def single_flight() -> None:
     """Test that the function returns True when the flight sequence is a
@@ -138,6 +139,7 @@ def single_flight() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 def test_valid_flight_sequence() -> None:
     """Test that the function returns True when the flight sequence is a
     valid flight sequence.
@@ -149,6 +151,7 @@ def test_valid_flight_sequence() -> None:
 
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
+
 
 def test_invalid_flight_sequence() -> None:
     """Test that the function returns False when the flight sequence is not a
@@ -162,6 +165,7 @@ def test_invalid_flight_sequence() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 def test_non_existent_airport() -> None:
     """Test that the function returns False when the flight sequence contains an
     airport that does not exist.
@@ -173,6 +177,7 @@ def test_non_existent_airport() -> None:
 
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
+
 
 def test_invalid_last_airport() -> None:
     """Test that the function returns False when the flight sequence is valid 
@@ -186,6 +191,7 @@ def test_invalid_last_airport() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 def test_invalid_first_airport() -> None:
     """Test that the function returns False when the flight sequence is valid 
     until the first airport.
@@ -197,6 +203,7 @@ def test_invalid_first_airport() -> None:
 
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
+
 
 def test_valid_long_flight_sequence() -> None:
     """Test that the function returns True when the flight sequence is a
@@ -210,6 +217,7 @@ def test_valid_long_flight_sequence() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 def test_invalid_long_flight_sequence() -> None:
     """Test that the function returns False when the flight sequence is not a
     valid flight sequence.
@@ -221,6 +229,7 @@ def test_invalid_long_flight_sequence() -> None:
 
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
+
 
 def test_loop_flight_sequence() -> None:
     """Test that the function returns True when the flight sequence is a
@@ -234,6 +243,7 @@ def test_loop_flight_sequence() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 def test_non_existent_route() -> None:
     """Test that the function returns False when the flight sequence contains a
     route that does not exist.
@@ -246,10 +256,11 @@ def test_non_existent_route() -> None:
     actual = is_valid_flight_sequence(routes, sequence)
     assert actual == expected
 
+
 if __name__ == '__main__':
-    # Uncomment the 2 lines below to check your code style with python_ta
-    # import python_ta
-    # python_ta.check_all(config='pyta/a3_pyta.txt')
+    # # Uncomment the 2 lines below to check your code style with python_ta
+    import python_ta
+    python_ta.check_all(config='pyta/a3_pyta.txt')
 
     # Perform the unit tests using pytest
     pytest.main(['test_flight_functions.py'])

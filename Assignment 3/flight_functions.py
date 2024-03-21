@@ -79,10 +79,10 @@ def summarize_by_timezone(airports: AirportDict) -> dict[str, int]:
             timezone_dict[timezone] = timezone_dict.get(timezone, 0) + 1
     return timezone_dict
 
+
 ################################################################################
 # Part 3 - Implementing useful algorithms
 ################################################################################
-
 
 def add_new_destinations(routes: RouteDict,
                          current_sources: list[str],
@@ -171,8 +171,8 @@ if __name__ == '__main__':
     # installed.  See the 'Completing the CSC108 Setup' section in the
     # Software Installation page on Quercus for details.
 
-    ## Uncomment the 3 lines below to have function type contracts checked
-    # Enable type contract checking for the functions in this file
+    # Uncomment the 3 lines below to have function type contracts checked
+    # # Enable type contract checking for the functions in this file
     # import python_ta.contracts
     # python_ta.contracts.check_all_contracts()
 
@@ -181,6 +181,5 @@ if __name__ == '__main__':
     doctest.testmod()
 
     # Uncomment the 2 lines below to check your code style with python_ta
-    # import python_ta
-    # python_ta.check_all(config='pyta/a3_pyta.txt')
-    
+    import python_ta
+    python_ta.check_all(config='pyta/a3_pyta.txt')
