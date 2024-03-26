@@ -71,6 +71,8 @@ def summarize_by_timezone(airports: AirportDict) -> dict[str, int]:
     >>> example_airports = flight_example_data.create_handout_airports()
     >>> summarize_by_timezone(example_airports)
     {'Australia/Sydney': 1, 'Australia/Brisbane': 1}
+    >>> summarize_by_timezone({'YYZ': {'Tz': 'America/Toronto'}})
+    {'America/Toronto': 1}
     """
     timezone_dict = {}
     for airport in airports:

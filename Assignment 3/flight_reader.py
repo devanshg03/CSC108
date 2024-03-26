@@ -126,16 +126,16 @@ if __name__ == '__main__':
 
     # Uncomment the 3 lines below to have function type contracts checked
     # Enable type contract checking for the functions in this file
-    import python_ta.contracts
-    python_ta.contracts.check_all_contracts()
+    # import python_ta.contracts
+    # python_ta.contracts.check_all_contracts()
     
     # Check the correctness of the doctest examples
     import doctest
     doctest.testmod()
     
     # Uncomment the 2 lines below to check your code style with python_ta
-    import python_ta
-    python_ta.check_all(config='pyta/a3_pyta.txt')
+    # import python_ta
+    # python_ta.check_all(config='pyta/a3_pyta.txt')
 
     # Uncomment the lines below to open the larger data files and call your
     # functions above
