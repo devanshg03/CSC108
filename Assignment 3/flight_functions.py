@@ -107,12 +107,11 @@ def add_new_destinations(routes: RouteDict,
 
 def find_reachable_destinations(routes: RouteDict, source: str, n: int) -> \
         list[str]:
-    """Return the list of IATA airport codes that are reachable from source by
+    """Returns the list of IATA airport codes that are reachable from source by
     taking at most n direct flights.
 
-    The list should not contain an IATA airport code more than once. The airport
-    codes in the list should appear in lexicographical order (use the
-    list.sort method on a list of strings to achieve this).
+    The list does not contain an IATA airport code more than once. The airport
+    codes in the list appear in lexicographical order.
 
     Preconditions:
         - n >= 1
@@ -137,13 +136,12 @@ def find_reachable_destinations(routes: RouteDict, source: str, n: int) -> \
 
 
 def decomission_plane(routes: RouteDict, plane: str) -> list[tuple[str, str]]:
-    """Update routes by removing plane from all source-destination routes that
-    use plane. Do not remove the source-destination pair, only the plane.
+    """Updates routes by removing plane from all source-destination routes that
+    use plane. Does not remove the source-destination pair, only the plane.
 
-    In addition, return a sorted list of two-element tuples where the first
-    index is source and the second index is destination (use the list.sort
-    method on a list of tuples to achieve this). The list includes *all* routes
-    that that have no planes that can be used.
+    In addition, returns a sorted list of two-element tuples where the first
+    index is source and the second index is destination. The list includes
+    *all* routes that that have no planes that can be used.
 
     >>> example_routes = flight_example_data.create_example_routes()
     >>> decomission_plane(example_routes, 'DH4')
@@ -158,8 +156,7 @@ def decomission_plane(routes: RouteDict, plane: str) -> list[tuple[str, str]]:
     """
     without_planes = []
     for source in routes:
-        for destination in routes[source]:
-            planes = routes[source][destination]
+        for destination, planes in routes[source].items():
             if plane in planes:
                 planes.remove(plane)
                 if not planes:
@@ -183,5 +180,5 @@ if __name__ == '__main__':
     doctest.testmod()
 
     # Uncomment the 2 lines below to check your code style with python_ta
-    import python_ta
-    python_ta.check_all(config='pyta/a3_pyta.txt')
+    # import python_ta
+    # python_ta.check_all(config='pyta/a3_pyta.txt')

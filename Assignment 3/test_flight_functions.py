@@ -127,7 +127,7 @@ def test_no_flights() -> None:
     assert actual == expected
 
 
-def single_flight() -> None:
+def test_single_flight() -> None:
     """Test that the function returns True when the flight sequence is a
     valid direct flight.
     """

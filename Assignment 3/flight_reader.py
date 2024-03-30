@@ -53,24 +53,17 @@ def read_airports(airports_data: TextIO) -> AirportDict:
     True
     """
     airports_dict = {}
-    iata, name, city, country, longitude, latitude, tz = ('',) * 7
 
     for line in airports_data:
-        line = line.strip().split(',')
-        iata = line[INDEX_AIRPORTS_IATA].replace('"', '')
-        name = line[INDEX_AIRPORTS_NAME].replace('"', '')
-        city = line[INDEX_AIRPORTS_CITY].replace('"', '')
-        country = line[INDEX_AIRPORTS_COUNTRY].replace('"', '')
-        latitude = line[INDEX_AIRPORTS_LATITUDE].replace('"', '')
-        longitude = line[INDEX_AIRPORTS_LONGITUDE].replace('"', '')
-        tz = line[INDEX_AIRPORTS_TZ].replace('"', '')
-        airports_dict[iata] = {
-            'Name': name,
-            'City': city, 
-            'Country': country,
-            'Latitude': latitude,
-            'Longitude': longitude,
-            'Tz': tz
+        line = line.strip().replace('"', '').split(',')
+        
+        airports_dict[line[INDEX_AIRPORTS_IATA]] = {
+            'Name': line[INDEX_AIRPORTS_NAME],
+            'City': line[INDEX_AIRPORTS_CITY], 
+            'Country': line[INDEX_AIRPORTS_COUNTRY],
+            'Latitude': line[INDEX_AIRPORTS_LATITUDE],
+            'Longitude': line[INDEX_AIRPORTS_LONGITUDE],
+            'Tz': line[INDEX_AIRPORTS_TZ]
         }
     return airports_dict
 
@@ -92,29 +85,22 @@ def read_routes(routes_data: TextIO, airports: AirportDict) -> RouteDict:
     True
     """
     routes_dict, destinations_dict = {}, {}
-    source, destination = '', ''
-    places = []
+    current_source = None
+    
+    for line in routes_data:
+        line = line.strip()
 
-    line = routes_data.readline().strip()
-    while line != '':
-        # If the line is a source
-        if 'SOURCE:' in line:
-             source = (line[-3:])
-        # If the line is destinations begin
-        elif line == 'DESTINATIONS BEGIN':
+        if line.startswith("SOURCE: "):
+            current_source = line[-3:]
+            if current_source not in airports:
+                current_source = None
+        elif line == 'DESTINATIONS END' and current_source:
+            routes_dict[current_source] = destinations_dict
             destinations_dict = {}
-        # If the line is destinations end
-        elif line == 'DESTINATIONS END' and source in airports:
-            routes_dict[source] = destinations_dict
-        # If the line is a destination
-        else:
-            line = line.split(' ')
-            destination = line[0]
-            places = line[1:]
+        elif current_source and ' ' in line:
+            destination, *planes = line.split(' ')
             if destination in airports:
-                destinations_dict[destination] = places
-        
-        line = routes_data.readline().strip()
+                destinations_dict[destination] = planes
     return routes_dict
 
 
@@ -125,7 +111,7 @@ if __name__ == '__main__':
     # Software Installation page on Quercus for details.
 
     # Uncomment the 3 lines below to have function type contracts checked
-    # Enable type contract checking for the functions in this file
+    # # Enable type contract checking for the functions in this file
     # import python_ta.contracts
     # python_ta.contracts.check_all_contracts()
     
